@@ -1,0 +1,6 @@
+
+def frequency(f):
+    if(f>=49 and f<50 or f>50 and f<=51 or f<49 or f>51):
+        return "1"
+    else: 
+        return"0"
