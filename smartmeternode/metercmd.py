@@ -40,9 +40,9 @@ from Algo import linebreakage
 #establish Serial connection to maxim meter
 port=serial.Serial("/dev/ttyUSB0",baudrate=9600,timeout=.1)
 
-conn = pymysql.connect(db="INTELLIGENTNODE", user="root", password="root", host="localhost",cursorclass=pymysql.cursors.DictCursor)
+conn = pymysql.connect(db="CS", user="root", password="root", host="localhost",)
 print "Opened database successfully"
-
+cur= conn.cursor()
 
 #variable declaration
 
@@ -121,19 +121,18 @@ while 1:
 #json format
 
 	node_data={
-		'time':timestamp,
-                'meter':m0_data,
-                'temperature':m1_data,
-               	'freq':m2_data,
-		'penergy':m3_data,
-                'qenergy':m6_data,
-                'senergy':m7_data,
-                'cospi':m11_data,
-                'irms':m15_data,
-                'vrms':m16_data,
-                'ppower':realpower,
-                'qpower':reactivepower,
-                'spower':apparentpower,
+                'Meter':m0_data,
+                'temp':m1_data,
+               	'f':m2_data,
+		'P_eng':m3_data,
+                'Q_eng':m6_data,
+                'S_eng':m7_data,
+                'pf':m11_data,
+                'I':m15_data,
+                'V':m16_data,
+                'P_pwr':realpower,
+                'Q_pwr':reactivepower,
+                'S_pwr':apparentpower,
 	 }
 
 	node_event={'frequency error':freq_error,'voltage status':volt_error,'temperature status':temp_error,'overload status':overload_error,'line breakage':line_error}
@@ -145,14 +144,8 @@ while 1:
 	print json_event
 
 #Store to SQL
-	cursor= conn.cursor()
 
-	sql= "INSERT INTO nodedata(meter,temperature,freq,penergy,qenergy,senergy,cospi,irms,vrms,ppower,qpower,spower) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
-	cursor.execute(sql,(m0_data,m1_data,m2_data,m3_data,m6_data,m7_data,m11_data,m15_data,m16_data,realpower,reactivepower,apparentpower))
-
-	sql_events= "INSERT INTO nodeevents(meter,frequency_status,voltage_status,temp_status,overload_status,line_status) VALUES (%s,%s,%s,%s,%s,%s);"
-	cursor.execute(sql_events,(m0_data,freq_error,volt_error,temp_error,overload_error,line_error))
-
+	cur.execute("INSERT INTO IN1(Meter,V,I,temp,Ppwr,Qpwr,Spwr,Peng,Qeng,Seng,f,pf) VALUES(%(Meter)s,%(V)s,%(I)s,%(temp)s,%(P_pwr)s,%(Q_pwr)s,%(S_pwr)s,%(P_eng)s,%(Q_eng)s,%(S_eng)s,%(f)s,%(pf)s);",node_data)
 	#todb(data)
 	conn.commit()
 
