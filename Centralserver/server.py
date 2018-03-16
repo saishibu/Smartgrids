@@ -1,7 +1,6 @@
 import os
 import socket
 import json
-import yaml
 from dbwrite import todb
 data=dict()
 
@@ -10,7 +9,7 @@ s = socket.socket()
 
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 0)
 
-host = '172.20.4.132'
+host = '192.168.1.106'
 
 port = 123
 
@@ -23,7 +22,7 @@ while True:
 	print ('Got connection from', addr)
 	print '\n'
 	print data
-	json_data = yaml.load(data)
+	json_data = json.loads(data)
 	print json_data
 	todb(json_data)
 	
