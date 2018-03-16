@@ -34,7 +34,7 @@ from Algo import temperature
 from Algo import overload
 from Algo import linebreakage
 #import support
-#from tcp_meternode import send
+from tcp_meternode import send
 #from dbwrite import todb
 
 #establish Serial connection to maxim meter
@@ -151,7 +151,7 @@ while 1:
 
 #TCP Data transmission
 
-#	send(json_data)
+	send(json_data)
 
 #Reset Variables
 	g=0;test=0;testarr=[]

@@ -8,7 +8,7 @@ def send(c_data):
 	b=b''
 #c_data=dict()
 	s = socket.socket()         # Create a socket object
-	host = '172.20.4.132' # Get local machine name
+	host = '192.168.1.106' # Get local machine name
 	port = 123    # Reserve a port for your service.
 	
 	#c_data={'name':'thank','age':30}
@@ -16,6 +16,7 @@ def send(c_data):
 	
 	s.connect((host, port))
 	s.sendall(c_data)
+	print "sent success"
 	#temp =s.recv(1024)
 	#b +=temp
 #d= json.loads(temp.encode('utf-8'))
