@@ -2,11 +2,13 @@ import os
 import socket
 import json
 from dbwrite import todb
-data=dict()
+import serial
 
+data=dict()
+error="NIL"
 
 s = socket.socket()
-
+ser = serial.Serial('/dev/ttyUSB0', 9600,timeout=1)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 0)
 
 host = '192.168.1.106'
@@ -25,4 +27,5 @@ while True:
 	json_data = json.loads(data)
 	print json_data
 	todb(json_data)
-	
+	error = ser.readline().strip()
+	print error
