@@ -33,6 +33,7 @@ from Algo import voltage
 from Algo import temperature
 from Algo import overload
 from Algo import linebreakage
+from zigbee import sendbee
 #import support
 from tcp_meternode import send
 #from dbwrite import todb
@@ -103,11 +104,8 @@ while 1:
 		reactivepower=0
 
 	apparentpower=m15_data*m16_data
-	timestamp=time.asctime(time.localtime(time.time()))
-
 #Algorithms
 # 1)frequency check
-	
 	freq_error = frequency(m2_data)	
 # 2)voltage check
 	volt_error = voltage(m16_data)
@@ -117,7 +115,6 @@ while 1:
 	overload_error = overload(apparentpower)
 #5) Linebreakage check
 	line_error = linebreakage(m2_data,m16_data)
-
 #json format
 
 	node_data={
@@ -136,7 +133,7 @@ while 1:
 	 }
 
 	node_event={'frequency error':freq_error,'voltage status':volt_error,'temperature status':temp_error,'overload status':overload_error,'line breakage':line_error}
-        
+	sendbee(node_event)        
 	json_data = json.dumps(node_data)
 	json_event = json.dumps(node_event)
 
